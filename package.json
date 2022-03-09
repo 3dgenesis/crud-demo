@@ -1,0 +1,22 @@
+{
+  "name": "todo-demo",
+  "version": "1.0.0",
+  "description": "Eugene's to-do list",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js"
+  },
+  "keywords": [
+    "fancy"
+  ],
+  "author": "Eugene",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.19.2",
+    "dotenv": "^16.0.0",
+    "express": "^4.17.3",
+    "pug": "^3.0.2",
+    "uuid": "^8.3.2"
+  }
+}
