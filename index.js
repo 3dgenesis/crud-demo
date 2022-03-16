@@ -1,89 +1,131 @@
-require('dotenv').config()
+require("dotenv").config()
 
-const express = require('express')
-const bodyParser = require('body-parser')
-const {StatusCodes} = require('http-status-codes');
+const express = require("express")
+const bodyParser = require("body-parser")
+const {StatusCodes} = require("http-status-codes");
+const { v4: uuidv4 } = require("uuid")
 
 const app = express()
-const port = process.env.CUSTOM_PORT
+const listenPort = process.env.LISTEN_PORT
 
-const { createTodo, readTodos, updateTodo, deleteTodo } = require('./lib/todos')
-
+const { createTodo, readTodos, updateTodo, deleteTodo } = require("./lib/todos")
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(express.json());
 
 // CRUD
 
 // Create
-app.post('/api/todos',  function(request, response, next) {
+app.post("/api/todos",  function(request, response, next) {
    const { title, description } = request.body
 
     if (!description || !title) {
-            response.status(StatusCodes.BAD_REQUEST)
-        return next(new Error('Missing field; description or title'))
+        const error = new Error("Missing field; description or title")
+        error.statusCode = StatusCodes.BAD_REQUEST
+        return next(error)
     }
 
     createTodo(title, description, function callback(error) {
         if (error) return next(error)
 
-        response.status(StatusCodes.CREATED)
-        return response.json({ status: 'sucsess', message : 'Todo added successfully'});
+        return response
+            .status(StatusCodes.CREATED)
+            .json({
+                error: null, 
+                data:[{
+                    message: "Todo created successfully"
+                }]
+            });
     })
 });
 
 // Read
-app.get('/api/todos',  function(_request, response, next) {
+app.get("/api/todos",  function(_request, response, next) {
     readTodos(function callback(error, todos) {
         if (error) return next(error)
 
-        response.status(StatusCodes.OK)
-        return response.json(todos)
+        return response.json({
+            error: null, 
+            data:[{
+                message: "Todos received successfully",
+                todos: todos
+            }]
+        });
     })
 });
 
 // Update
-app.put('/api/todos', function(request, response, next) {
+app.put("/api/todos", function(request, response, next) {
     const { uuid, title, description } = request.body
 
     if (!uuid || !title || !description) {
-        response.status(StatusCodes.BAD_REQUEST)
-        return next(new Error('Bad query: uuid, title or description missing'))
+        const error = new Error("Bad query: uuid, title or description missing")
+        error.statusCode = StatusCodes.BAD_REQUEST
+        return next(error)
     }
 
     updateTodo(uuid, title, description, function callback(error) {
         if (error) return next(error)
 
-        response.status(StatusCodes.OK)
-        return response.json({ status: 'sucsess', message : 'Todo updated successfully'})
+        return response.json({
+            error: null, 
+            data:[{
+                message: "Todos updated successfully",
+                todos: todos
+            }]
+        });
     })
 })
 
 // Delete
-app.delete('/api/todos/', function(request, response, next) {
+app.delete("/api/todos/", function(request, response, next) {
 
     const { uuid } = request.query
 
     if (!uuid) {
-        response.status(StatusCodes.BAD_REQUEST)
-        return next(new Error('Bad query: uuid missing'))
+        const error = new Error("Bad query: uuid missing")
+        error.statusCode = StatusCodes.BAD_REQUEST
+        return next(error)
     }
         
     deleteTodo(uuid, function callback(error) {
-        if (error) throw error
+        if (error) return next(error) 
 
-        response.status(StatusCodes.OK)
-        return response.json({ status: 'sucsess', message : 'Todo deleted successfully'})
+        return response.json({
+            error: null, 
+            data:[{
+                message: "Todos deleted successfully",
+                todos: todos
+            }]
+        });
     })
 })
 
-app.use((error, request, response, next) => {
-    console.log('Error status')
-})
 
-app.use( function errorHandler(error, request, response, next) {
-    console.log('Error here')
-})
+function errorHandler(error, request, response, next) {
+    if (!error) {
+        return next()
+    }
 
-    app.listen(port, function() {
-    console.log(`http://localhost:${port}`)
+    error.referenceId = uuidv4()
+
+    console.log(
+        `Error code: ${error.statusCode}, error message: ${error.message}, error reference ID: ${error.referenceId}`
+    )
+
+    response
+        .status(error.statusCode || 500)
+        .json({
+            error: [{
+                statusCode: error.statusCode,
+                message: error.message,
+                referenceId: error.referenceId
+            }],
+            data: null
+        });
+}
+
+app.use(errorHandler)
+
+app.listen(listenPort, function() {
+    console.log(`http://localhost:${listenPort}`)
 })
