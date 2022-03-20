@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js"
+    "start": "nodemon index.js"
   },
   "keywords": [
     "fancy"
@@ -17,8 +17,10 @@
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "http-status-codes": "^2.2.0",
+    "nodemon": "^2.0.15",
     "pug": "^3.0.2",
-    "uuid": "^8.3.2"
+    "uuid": "^8.3.2",
+    "winston": "^3.6.0"
   },
   "directories": {
     "lib": "lib"
