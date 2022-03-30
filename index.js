@@ -1,7 +1,7 @@
 require("dotenv").config()
 
-const winston = require('winston');
-const { splat, combine, timestamp, prettyPrint } = winston.format;
+const winston = require('winston')
+const { splat, combine, timestamp, prettyPrint } = winston.format
 
 const express = require("express")
 const bodyParser = require("body-parser")
@@ -58,7 +58,7 @@ app.post("/api/todos",  function(request, response, next) {
     if (!title || !description) {
         return next( new AppError(
             "Missing field; description or title",
-            StatusCodes.BAD_REQUEST, 
+            StatusCodes.BAD_REQUEST,
             `title: ${!!title}, description: ${!!description}`
         ))
     }
@@ -68,7 +68,7 @@ app.post("/api/todos",  function(request, response, next) {
         return response
             .status(StatusCodes.CREATED)
             .json({
-                error: null, 
+                error: null,
                 data:[{
                     message: "Todo created successfully"
                 }]
@@ -84,7 +84,7 @@ app.get("/api/todos",  function(_request, response, next) {
     readTodos()
     .then(function(todos){
         return response.json({
-            error: null, 
+            error: null,
             data:[{
                 message: "Todos received successfully",
                 todos: todos
@@ -101,22 +101,23 @@ app.put("/api/todos", function(request, response, next) {
     if (!uuid || !title || !description) {
         return next( new AppError(
             "Bad query: uuid, title or description missing",
-            StatusCodes.BAD_REQUEST, 
+            StatusCodes.BAD_REQUEST,
             `uuid: ${!!uuid}, title: ${!!title}, description: ${!!description}`
         ))
     }
 
-    updateTodo(uuid, title, description, function callback(error) {
-        if (error) return next(error)
+    updateTodo(uuid, title, description).then(function(error) {
+
+        if (error) return next(error);
 
         return response.json({
-            error: null, 
+            error: null,
             data:[{
                 message: "Todos updated successfully"
             }]
         })
     })
-})
+});
 
 // Delete
 app.delete("/api/todos/", function(request, response, next) {
@@ -126,22 +127,22 @@ app.delete("/api/todos/", function(request, response, next) {
     if (!uuid) {
         return next( new AppError(
             "Bad query: uuid missing",
-            StatusCodes.BAD_REQUEST, 
+            StatusCodes.BAD_REQUEST,
             `uuid: ${!!uuid}`
         ))
     }
-        
-    deleteTodo(uuid, function callback(error) {
-        if (error) return next(error) 
+
+    deleteTodo(uuid).then(function(error) {
+        if (error) return next(error);
 
         return response.json({
-            error: null, 
+            error: null,
             data:[{
                 message: "Todo deleted successfully"
             }]
         })
     })
-})
+});
 
 function errorHandler(error, request, response, next) {
     if (!error) {
