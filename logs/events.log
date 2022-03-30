@@ -1,6 +1,19 @@
-2022-03-20T20:37:03.080Z http: method: GET -> 200 /api/todos/ requestID: 8a933def-35ed-4672-b381-142b24ed8e0e
-2022-03-20T20:37:08.402Z http: method: POST -> 200 /api/todos/ requestID: 244f8e14-bf10-4719-b405-e1620d7a1328
-2022-03-20T20:37:11.657Z http: method: PUT -> 200 /api/todos/ requestID: e1ba2506-9086-4c61-bb99-4640300dea1c
-    2022-03-20T20:53:37.045Z error: requestIc is not defined, requestId: e14d4149-8aff-4cc3-a411-9c937711d480
-2022-03-20T20:54:47.289Z error: requestIc is not defined, requestId: 28832215-0fd5-46fb-8ec1-88663ae01f58
-2022-03-20T20:55:13.421Z http: method: PUT -> 200 /api/todos/ ohh, requestId: undefined
+{"level":"http","method":"GET","statusCode":200,"path":"/api/todos/","query":{},"requestId":"ce5ebf70-4e95-4aec-b238-363de47304b1","error":[]}
+{"level":"http","method":"GET","statusCode":200,"path":"/api/todos/","query":{},"requestId":"4f350184-ccb3-4336-a371-253507377a16","error":[]}
+{"timestamp":{"options":{}},"level":"http","method":"GET","statusCode":200,"path":"/api/todos/","query":{},"requestId":"748e33dc-741e-4c7e-ad22-6a0dc40648eb","error":[]}
+{"level":"http","method":"GET","statusCode":200,"path":"/api/todos/","query":{},"requestId":"c7addf73-25f9-4aca-959b-b2b39a08f86c","error":[]}
+{"level":"http","method":"GET","statusCode":200,"path":"/api/todos/","query":{},"requestId":"bf025e10-1f92-4fa3-83eb-76e03f9508a5","error":[]}
+{"level":"http","method":"GET","statusCode":200,"path":"/api/todos/","query":{},"requestId":"740387f2-eb56-4a3d-8b28-142740e11e6e","error":[]}
+{"level":"http","method":"GET","statusCode":200,"path":"/api/todos/","query":{},"requestId":"8dbaa8d3-f9c3-4d21-9773-7b517ec52baa","error":[]}
+{"level":"http","method":"GET","statusCode":200,"path":"/api/todos/","query":{},"requestId":"ea77a27d-acf2-473d-a4ff-5629dd1ba3b4","error":[]}
+{"level":"http","method":"GET","statusCode":200,"path":"/api/todos/","query":{},"requestId":"97357c35-81ba-46ca-9140-790f4390a0c9","error":[]}
+{"level":"error","method":"GET","path":"/api/todos/","query":{},"requestId":"97357c35-81ba-46ca-9140-790f4390a0c9","error":["Error","ENOENT: no such file or directory, open 'C:\\Projects\\github\\crud-demo\\todo\\todo_data.json'",null]}
+{"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"46b1b309-20e0-413e-bb4b-fbfbd29ba5d3","error":[]}
+{"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"6e2ef56f-4ea4-4e1c-840a-d1c293340b29","error":[]}
+{"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"457c8050-5ef6-4f23-a4da-92f5ca7d92db","error":[]}
+{"level":"error","method":"POST","path":"/api/todos","query":{},"requestId":"457c8050-5ef6-4f23-a4da-92f5ca7d92db","error":["TypeError","Cannot read property 'then' of undefined",null]}
+{"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"7562a54c-94f9-4517-9ccb-88075b63f1e9","error":[]}
+{"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"37d8926b-eb2e-468e-9149-e923a2dc8d21","error":[]}
+{"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"ddd35750-0787-4bd5-a0de-5c0610f5bbbe","error":[]}
+{"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"fa5d26a4-c9b6-4b8b-8108-8ad0e7909961","error":[]}
+{"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"33a8e254-88bb-45e4-bd24-709933ae6eb3","error":[]}

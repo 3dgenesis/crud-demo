@@ -1,7 +1,7 @@
 require("dotenv").config()
 
 const winston = require('winston');
-const { splat, combine, timestamp, printf } = winston.format;
+const { splat, combine, timestamp, prettyPrint } = winston.format;
 
 const express = require("express")
 const bodyParser = require("body-parser")
@@ -19,29 +19,12 @@ app.use(express.json())
 
 // Event log
 
-const eventFormat = printf( ({ timestamp, level, method, url, statusCode, message, requestId}) => {
-    return `${timestamp} ${level}: method: ${method} -> ${statusCode} ${url} ${message}, requestId: ${requestId}`;
-})
-
-const errorFormat = printf( ({ timestamp, level, message, requestId}) => {
-    return `${timestamp} ${level}: ${message}, requestId: ${requestId}`;
-});
-
 const eventLogger = winston.createLogger({
+    format:  winston.format.json({ deterministic: false }),
     transports: [
         new winston.transports.File({
-            filename: 'events.log', level: 'error',
-            format: combine(
-                timestamp(),
-                errorFormat
-            ),
-        }),
-        new winston.transports.File({
-            filename: 'events.log', level: 'http',
-            format: combine(
-                timestamp(),
-                eventFormat
-            ),
+            filename: 'logs/events.log', level: 'http',
+
         }),
     ],
 })
@@ -52,10 +35,11 @@ function logEvents(request, response, next){
     eventLogger.log({
         level: 'http',
         method: request.method,
-        url: request.url,
         statusCode: response.statusCode,
-        message: 'ohh',
-        requestID: request.uuid
+        path: request.path,
+        query: request.query,
+        requestId: request.id,
+        error: []
     })
 
     next()
@@ -75,13 +59,12 @@ app.post("/api/todos",  function(request, response, next) {
         return next( new AppError(
             "Missing field; description or title",
             StatusCodes.BAD_REQUEST, 
-            `title: ${!title}, description: ${!description}`
+            `title: ${!!title}, description: ${!!description}`
         ))
     }
 
-    createTodo(title, description, function callback(error) {
-        if (error) return next(error)
-
+    createTodo(title, description)
+    .then(function(error) {
         return response
             .status(StatusCodes.CREATED)
             .json({
@@ -91,13 +74,15 @@ app.post("/api/todos",  function(request, response, next) {
                 }]
             })
     })
+    .catch(function(error) {
+        return next(error)
+    })
 })
 
 // Read
 app.get("/api/todos",  function(_request, response, next) {
-    readTodos(function callback(error, todos) {
-        if (error) return next(error)
-
+    readTodos()
+    .then(function(todos){
         return response.json({
             error: null, 
             data:[{
@@ -106,6 +91,7 @@ app.get("/api/todos",  function(_request, response, next) {
             }]
         })
     })
+    .catch(next)
 })
 
 // Update
@@ -116,7 +102,7 @@ app.put("/api/todos", function(request, response, next) {
         return next( new AppError(
             "Bad query: uuid, title or description missing",
             StatusCodes.BAD_REQUEST, 
-            `uuid: ${!uuid}, title: ${!title}, description: ${!description}`
+            `uuid: ${!!uuid}, title: ${!!title}, description: ${!!description}`
         ))
     }
 
@@ -141,7 +127,7 @@ app.delete("/api/todos/", function(request, response, next) {
         return next( new AppError(
             "Bad query: uuid missing",
             StatusCodes.BAD_REQUEST, 
-            `uuid: ${!uuid}`
+            `uuid: ${!!uuid}`
         ))
     }
         
@@ -151,8 +137,7 @@ app.delete("/api/todos/", function(request, response, next) {
         return response.json({
             error: null, 
             data:[{
-                message: "Todos deleted successfully",
-                todos: todos
+                message: "Todo deleted successfully"
             }]
         })
     })
@@ -173,8 +158,12 @@ function errorHandler(error, request, response, next) {
 
     eventLogger.log({
         level: 'error',
-        message: error.message,
-        requestId: request.id
+        method: request.method,
+        path: request.path,
+        query: request.query,
+        statusCode: error.statusCode,
+        requestId: request.id,
+        error: [error.name, error.message, error.data]
     });
 
     return response
