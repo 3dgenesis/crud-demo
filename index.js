@@ -1,7 +1,6 @@
 require("dotenv").config()
 
 const winston = require('winston')
-const { splat, combine, timestamp, prettyPrint } = winston.format
 
 const express = require("express")
 const bodyParser = require("body-parser")
@@ -24,7 +23,6 @@ const eventLogger = winston.createLogger({
     transports: [
         new winston.transports.File({
             filename: 'logs/events.log', level: 'http',
-
         }),
     ],
 })
@@ -53,7 +51,7 @@ app.use(logEvents);
 
 // Create
 app.post("/api/todos",  function(request, response, next) {
-   const { title, description } = request.body
+    const { title, description } = request.body
 
     if (!title || !description) {
         return next( new AppError(
@@ -64,34 +62,32 @@ app.post("/api/todos",  function(request, response, next) {
     }
 
     createTodo(title, description)
-    .then(function(error) {
-        return response
-            .status(StatusCodes.CREATED)
-            .json({
-                error: null,
-                data:[{
-                    message: "Todo created successfully"
-                }]
-            })
-    })
-    .catch(function(error) {
-        return next(error)
-    })
+        .then(function() {
+            return response
+                .status(StatusCodes.CREATED)
+                .json({
+                    error: null,
+                    data:[{
+                        message: "Todo created successfully"
+                    }]
+                })
+        })
+        .catch(next)
 })
 
 // Read
 app.get("/api/todos",  function(_request, response, next) {
     readTodos()
-    .then(function(todos){
-        return response.json({
-            error: null,
-            data:[{
-                message: "Todos received successfully",
-                todos: todos
-            }]
+        .then(function(todos){
+            return response.json({
+                error: null,
+                data:[{
+                    message: "Todos received successfully",
+                    todos: todos
+                }]
+            })
         })
-    })
-    .catch(next)
+        .catch(next)
 })
 
 // Update
@@ -106,17 +102,16 @@ app.put("/api/todos", function(request, response, next) {
         ))
     }
 
-    updateTodo(uuid, title, description).then(function(error) {
-
-        if (error) return next(error);
-
-        return response.json({
-            error: null,
-            data:[{
-                message: "Todos updated successfully"
-            }]
+    updateTodo(uuid, title, description)
+        .then(function() {
+            return response.json({
+                error: null,
+                data:[{
+                    message: "Todos updated successfully"
+                }]
+            })
         })
-    })
+        .catch(next)
 });
 
 // Delete
@@ -132,16 +127,16 @@ app.delete("/api/todos/", function(request, response, next) {
         ))
     }
 
-    deleteTodo(uuid).then(function(error) {
-        if (error) return next(error);
-
-        return response.json({
-            error: null,
-            data:[{
-                message: "Todo deleted successfully"
-            }]
+    deleteTodo(uuid)
+        .then(function() {
+            return response.json({
+                error: null,
+                data:[{
+                    message: "Todo deleted successfully"
+                }]
+            })
         })
-    })
+        .catch(next)
 });
 
 function errorHandler(error, request, response, next) {

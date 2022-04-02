@@ -17,3 +17,18 @@
 {"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"ddd35750-0787-4bd5-a0de-5c0610f5bbbe","error":[]}
 {"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"fa5d26a4-c9b6-4b8b-8108-8ad0e7909961","error":[]}
 {"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"33a8e254-88bb-45e4-bd24-709933ae6eb3","error":[]}
+{"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"798ab5da-f8bc-4643-8b15-e9767801cd74","error":[]}
+{"level":"http","method":"PUT","statusCode":200,"path":"/api/todos","query":{},"requestId":"b9aae7cf-bace-4615-8dbf-c3bc082fcd5a","error":[]}
+{"level":"http","method":"GET","statusCode":200,"path":"/api/todos/","query":{},"requestId":"cf961b62-cf48-41c3-be65-f22523f80c20","error":[]}
+{"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"62c501cc-62ab-4078-958a-5a55d0a270fb","error":[]}
+{"level":"http","method":"POST","statusCode":200,"path":"/api/todos","query":{},"requestId":"43edb39e-1af5-44c9-bd7a-92d2741e77ff","error":[]}
+{"level":"error","method":"POST","path":"/api/todos","query":{},"statusCode":400,"requestId":"43edb39e-1af5-44c9-bd7a-92d2741e77ff","error":["AppError","Missing field; description or title","title: false, description: true"]}
+{"level":"http","method":"PUT","statusCode":200,"path":"/api/todos","query":{},"requestId":"fb0fcdd7-d85e-410c-9c97-7af4b7a096d0","error":[]}
+{"level":"error","method":"PUT","path":"/api/todos","query":{},"statusCode":400,"requestId":"fb0fcdd7-d85e-410c-9c97-7af4b7a096d0","error":["AppError","Bad query: uuid, title or description missing","uuid: true, title: false, description: true"]}
+{"level":"http","method":"DELETE","statusCode":200,"path":"/api/todos","query":{"uuid":"8525d479-e321-467a-8599-c68d1c8d26ef"},"requestId":"c760bd1a-9a85-4723-9380-2e5e08dd504e","error":[]}
+{"level":"http","method":"DELETE","statusCode":200,"path":"/api/todos","query":{"uuid":"8525d479-e321-467a-8599-c68d1c8d26ef"},"requestId":"f9a6bf9d-8172-430e-af1e-869a9e9d4535","error":[]}
+{"level":"error","method":"DELETE","path":"/api/todos","query":{"uuid":"8525d479-e321-467a-8599-c68d1c8d26ef"},"requestId":"f9a6bf9d-8172-430e-af1e-869a9e9d4535","error":["Error","Todo is not found",null]}
+{"level":"http","method":"DELETE","statusCode":200,"path":"/api/todos","query":{},"requestId":"2b65e02a-caac-4c12-a9c4-f451716a69a4","error":[]}
+{"level":"error","method":"DELETE","path":"/api/todos","query":{},"statusCode":400,"requestId":"2b65e02a-caac-4c12-a9c4-f451716a69a4","error":["AppError","Bad query: uuid missing","uuid: false"]}
+{"level":"http","method":"DELETE","statusCode":200,"path":"/api/todos","query":{"uuid":"8525d479-e321-467a-8599-c68d1c8d26ef"},"requestId":"b18e054f-dc69-48e2-942d-dbc05d305795","error":[]}
+{"level":"error","method":"DELETE","path":"/api/todos","query":{"uuid":"8525d479-e321-467a-8599-c68d1c8d26ef"},"requestId":"b18e054f-dc69-48e2-942d-dbc05d305795","error":["Error","ENOENT: no such file or directory, open 'C:\\Projects\\github\\crud-demo\\todo\\todo_data.json'",null]}

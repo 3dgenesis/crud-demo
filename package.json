@@ -32,5 +32,8 @@
   "bugs": {
     "url": "https://github.com/3dgenesis/crud-demo/issues"
   },
-  "homepage": "https://github.com/3dgenesis/crud-demo#readme"
+  "homepage": "https://github.com/3dgenesis/crud-demo#readme",
+  "devDependencies": {
+    "eslint": "^8.12.0"
+  }
 }
